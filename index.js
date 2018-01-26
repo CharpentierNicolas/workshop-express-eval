@@ -12,10 +12,21 @@ app.get('/bingo', function(req, res) {
     fs.readFile(file, function (err, data) {
     nb.push(data.toString().split('\n').join(","));
     console.log(nb);
-    res.send(nb);
+    console.log(req.params.mynumbers)
+    res.send('The bingo game is already started and known numbers are '+ nb);
     });
-
-    //res.end('Bingo' + nb + bn)
 })
+.get('/bingo/:mynumbers', function(req, res) {
+    var nb = [];
+    fs.readFile(file, function (err, data) {
+        nb.push(data.toString().split('\n').join(","));
+        console.log(req.params.mynumbers)
+        numbers = req.params.mynumbers;
+        if(numbers === nb) {
+            res.send('Bingo')
+        } else res.send('The bingo game is already started, sorry your numbers doesn\'t match with known numbers ' + nb  + '; so you can not say Bingo')
+    })
+})
+
 app.listen( process.argv[2] || port)
 console.log(chalk.green('Hello web server'));
